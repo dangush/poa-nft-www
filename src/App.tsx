@@ -1,38 +1,79 @@
-import * as React from "react"
 import {
-  ChakraProvider,
   Box,
+  Button,
+  Center,
+  ChakraProvider,
+  Heading,
   Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
   theme,
-} from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import { Logo } from "./Logo"
+  useColorMode,
+} from '@chakra-ui/react'
+import { useEffect } from 'react'
+import Page from './components/Page'
 
-export const App = () => (
+const App = () => (
   <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <ColorModeSwitcher justifySelf="flex-end" />
-        <VStack spacing={8}>
-          <Logo h="40vmin" pointerEvents="none" />
-          <Text>
-            Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
-          </Text>
-          <Link
-            color="teal.500"
-            href="https://chakra-ui.com"
-            fontSize="2xl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn Chakra
-          </Link>
-        </VStack>
-      </Grid>
-    </Box>
+    <Inner />
   </ChakraProvider>
 )
+
+const Inner: React.FC = () => {
+  const { colorMode, setColorMode } = useColorMode()
+
+  useEffect(() => {
+    if (colorMode === 'light') setColorMode('dark')
+  }, [colorMode, setColorMode])
+
+  return (
+    <Box>
+      <Page text="Connect your wallet">
+        <Text
+          bgGradient="linear(to-l, #7928CA, #FF0080)"
+          bgClip="text"
+          fontSize="6xl"
+          fontWeight="extrabold"
+        >
+          Step 1
+        </Text>
+        <Button size="lg">Connect your wallet</Button>
+      </Page>
+      <Page>
+        <Text
+          bgGradient="linear(to-l, #7928CA, #FF0080)"
+          bgClip="text"
+          fontSize="6xl"
+          fontWeight="extrabold"
+        >
+          Step 2
+        </Text>
+        <Button size="lg">Switch to the Matic network</Button>
+        <Text>or</Text>
+        <Button size="lg">Add the Matic network</Button>
+      </Page>
+      <Page>
+        <Text
+          bgGradient="linear(to-l, #7928CA, #FF0080)"
+          bgClip="text"
+          fontSize="6xl"
+          fontWeight="extrabold"
+        >
+          Step 3
+        </Text>
+        <Button size="lg">Mint Your Attendance NFT</Button>
+      </Page>
+      <Page>
+        <Text
+          bgGradient="linear(to-l, #7928CA, #FF0080)"
+          bgClip="text"
+          fontSize="6xl"
+          fontWeight="extrabold"
+        >
+          Step 4
+        </Text>
+        <Button size="lg">Look at your NFT on Opensea</Button>
+      </Page>
+    </Box>
+  )
+}
+
+export default App
