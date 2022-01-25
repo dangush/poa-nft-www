@@ -23,11 +23,15 @@ contract AttendanceJan19 is ERC721, ERC721URIStorage, Ownable {
         return "ipfs://";
     }
 
-    function safeMint(address to, string memory uri) public payable onlyOwner {
+    //PUBLIC FUNCTION
+    //TODO: figure out correct practice for safemint, _mint, mint functions
+    function safeMint(string memory uri) public payable {
         //Making sure that NFT IDs start at 1
         if (_tokenIdCounter.current() == 0) {
             _tokenIdCounter.increment();
         }
+
+        address to = msg.sender;
 
         require(_tokenIdCounter.current() < totalSupply, 'All tokens have been minted!');
         require(existingURIs[uri] != 1, 'NFT already minted!');
@@ -37,6 +41,10 @@ contract AttendanceJan19 is ERC721, ERC721URIStorage, Ownable {
         owners[to] = newItemId;
         _tokenIdCounter.increment();
         existingURIs[uri] = 1;
+
+        if (msg.value > 0) {
+            payable(msg.sender).transfer(msg.value);
+        }
 
         _mint(to, newItemId);
         _setTokenURI(newItemId, uri);
